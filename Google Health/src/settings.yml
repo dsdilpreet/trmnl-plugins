@@ -15,7 +15,7 @@ custom_fields:
   name: Google Health (Fitbit)
   category: personal,sports
   field_type: author_bio
-  description: Displays your daily activity and recovery metrics from Google Health.
-  github_url: https://github.com/dsdilpreet
+  description: Displays your daily activity and recovery metrics from Google Health. NOTE: Because this is an open-source plugin and I do not own the trmnl.com domain, I haven't gone through the formal process of getting the app verified by Google. So you will see an 'Unverified App' warning when connecting your google account. This is normal and you can bypass it. The code for this plugin can be found by clicking the github link below.
+  github_url: https://github.com/dsdilpreet/trmnl-plugins
 name: Google Health
 refresh_interval: 15
