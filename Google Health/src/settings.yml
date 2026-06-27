@@ -1,0 +1,21 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'yes'
+static_data: ''
+polling_verb: get
+framework_version: 3.1.1
+serverless_language: python
+polling_url: https://trmnl.com
+polling_headers: Authorization=None
+polling_body: "{}"
+id: 318970
+custom_fields:
+- keyname: google_health
+  name: Google Health (Fitbit)
+  category: personal,sports
+  field_type: author_bio
+  description: Displays your daily activity and recovery metrics from Google Health.
+  github_url: https://github.com/dsdilpreet
+name: Google Health
+refresh_interval: 15
