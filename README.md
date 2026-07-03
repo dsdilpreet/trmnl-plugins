@@ -8,6 +8,6 @@ Each directory contains a plugin.
 Displays your daily activity and recovery metrics from Google Health.
 
 <figure>
-	<img src="Google%20Health/images/sample_data.png" alt="Google Health sample data" width="480">
-	<figcaption>Sample data screenshot for the Google Health plugin.</figcaption>
+	<img src="Google%20Health/images/sample_data.png" alt="Google Health full-view display sample data" width="480">
+	<figcaption>Sample data shown in the full-view TRMNL e-ink display.</figcaption>
 </figure>
