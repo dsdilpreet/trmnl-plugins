@@ -1,0 +1,77 @@
+<div class="layout">
+    <div class="flex flex--col flex--left" style="height: 95%; justify-content: space-around;">
+        <h5 class="lg:text--medium">ACTIVITY</h5>
+        
+        <div class="item">
+            <div class="meta"></div>
+            <div class="content">
+                <span class="value value--small lg:value--large lg:portrait:value--xlarge value--tnums">
+                {{ steps.rollupDataPoints[0].steps.countSum | default: 0 }}
+                </span>
+                <span class="label lg:text--medium lg:label--large">Steps Today</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="meta"></div>
+            <div class="content">
+                <span class="value value--small lg:value--large lg:portrait:value--xlarge value--tnums">
+                {{ totalCalories.rollupDataPoints[0].totalCalories.kcalSum | round | default: 0 }}<span class="text--small lg:text--large ml--1">kcal</span>
+                </span>
+                <span class="label lg:text--medium lg:label--large">Calories Burned</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="meta"></div>
+            <div class="content">
+                <span class="value value--small lg:value--large lg:portrait:value--xlarge value--tnums">
+                {% assign cardio = activeZoneMinutes.rollupDataPoints[0].activeZoneMinutes.sumInCardioHeartZone | plus: 0 %}
+                {% assign peak = activeZoneMinutes.rollupDataPoints[0].activeZoneMinutes.sumInPeakHeartZone | plus: 0 %}
+                {% assign fatburn = activeZoneMinutes.rollupDataPoints[0].activeZoneMinutes.sumInFatBurnHeartZone | plus: 0 %}
+                {{ cardio | plus: peak | plus: fatburn }}<span class="text--small lg:text--large ml--1">m</span>
+                </span>
+                <span class="label lg:text--medium lg:label--large">Active Zone</span>
+            </div>
+        </div>
+
+        <div class="divider my--small"></div>
+
+        <h5 class="lg:text--medium">RECOVERY</h5>
+        
+        <div class="item">
+            <div class="meta"></div>
+            <div class="content">
+            <span class="value value--small lg:value--large lg:portrait:value--xlarge value--tnums">
+                {{ sleep.dataPoints[0].sleep.summary.minutesAsleep | divided_by: 60 }}<span class="text--small lg:text--large">h</span> {{ sleep.dataPoints[0].sleep.summary.minutesAsleep | modulo: 60 }}<span class="text--small lg:text--large">m</span>
+            </span>
+            <span class="label lg:text--medium lg:label--large">Sleep Duration</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="meta"></div>
+            <div class="content">
+            <span class="value value--small lg:value--large lg:portrait:value--xlarge value--tnums">
+                {{ restingHeartRate.dataPoints[0].dailyRestingHeartRate.beatsPerMinute | default: '--' }} <span class="text--small lg:text--large ml--1">bpm</span>
+            </span>
+            <span class="label lg:text--medium lg:label--large">Resting Heart Rate</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="meta"></div>
+            <div class="content">
+            <span class="value value--small lg:value--large lg:portrait:value--xlarge value--tnums">
+                {{ heartRateVariability.dataPoints[0].heartRateVariability.rootMeanSquareOfSuccessiveDifferencesMilliseconds | default: '--' }}<span class="text--small lg:text--large ml--1">ms</span>
+            </span>
+            <span class="label lg:text--medium lg:label--large">Heart Rate Variability</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="title_bar">
+    <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+    <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+    <span class="instance">Updated {{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
+</div>
