@@ -34,10 +34,11 @@ custom_fields:
 - keyname: country
   name: Country
   field_type: select
-  default: Global
+  default: global
+  optional: true
   options:
   - Global
   - Argentina
 name: YouTube Charts
 description: ''
-refresh_interval: 30
+refresh_interval: 15

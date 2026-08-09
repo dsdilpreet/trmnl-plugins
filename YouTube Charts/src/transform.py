@@ -6,6 +6,9 @@ CHART_URL = "https://charts.youtube.com/youtubei/v1/browse?alt=json"
 REQUEST_TIMEOUT_SECONDS = 4
 DEFAULT_COUNTRY_CODE = "global"
 DEFAULT_TOP_N = 10
+COUNTRY_CODE_MAP = {
+    "argentina": "AR",
+}
 
 
 def get_trmnl_user(input_data):
@@ -54,20 +57,17 @@ def get_user_local_time(input_data):
 
 
 def get_country_code(input_data):
-    candidates = [
-        input_data.get("country_code"),
-        input_data.get("countryCode"),
-        input_data.get("country"),
-    ]
+    country = (
+        input_data.get("trmnl", {})
+        .get("plugin_settings", {})
+        .get("custom_fields_values", {})
+        .get("country", "")
+    )
 
-    for value in candidates:
-        if isinstance(value, str) and value.strip():
-            normalized = value.strip()
-            if normalized.lower() == "global":
-                return "global"
-            return normalized.upper()
+    if not isinstance(country, str) or not country.strip():
+        return DEFAULT_COUNTRY_CODE
 
-    return DEFAULT_COUNTRY_CODE
+    return COUNTRY_CODE_MAP.get(country.strip().lower(), DEFAULT_COUNTRY_CODE)
 
 
 def build_request_payload(country_code):
