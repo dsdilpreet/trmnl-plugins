@@ -36,7 +36,6 @@ def get_user_utc_offset_minutes(input_data):
 def build_request_headers(input_data):
     return {
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0",
         "X-YouTube-Time-Zone": get_user_timezone_name(input_data),
         "X-YouTube-Utc-Offset": str(get_user_utc_offset_minutes(input_data)),
     }
