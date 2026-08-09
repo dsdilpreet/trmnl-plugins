@@ -5,7 +5,7 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: 3.2.0
-serverless_language: ''
+serverless_language: python
 polling_url: https://trmnl.com/custom_plugin_example_data.json
 polling_headers: ''
 polling_body: ''
