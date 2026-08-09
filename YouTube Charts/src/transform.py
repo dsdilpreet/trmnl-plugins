@@ -123,17 +123,17 @@ def format_change(value):
 def extract_thumbnail(track):
     thumbnail_obj = track.get("thumbnail")
     if not isinstance(thumbnail_obj, dict):
-        return None, None
+        return None
 
     thumbnails = thumbnail_obj.get("thumbnails", [])
     if not thumbnails:
-        return thumbnail_obj, None
+        return None
 
     best_thumbnail = max(
         thumbnails,
         key=lambda item: item.get("width", 0) * item.get("height", 0),
     )
-    return thumbnail_obj, best_thumbnail.get("url")
+    return best_thumbnail.get("url")
 
 
 def build_custom_chart_json(api_data, country_code, top_n):
@@ -152,13 +152,12 @@ def build_custom_chart_json(api_data, country_code, top_n):
             top_tracks = []
             for track in track_type.get("trackViews", [])[:top_n]:
                 meta = track.get("chartEntryMetadata", {})
-                thumbnail_obj, thumbnail_url = extract_thumbnail(track)
+                thumbnail_url = extract_thumbnail(track)
 
                 top_tracks.append(
                     {
                         "title": track.get("name", "Unknown"),
                         "artists": format_artists(track.get("artists", [])),
-                        "thumbnail": thumbnail_obj,
                         "thumbnailUrl": thumbnail_url,
                         "viewCount": track.get("viewCount", "-"),
                         "currentPosition": meta.get("currentPosition", "-"),
