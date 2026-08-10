@@ -6,6 +6,8 @@ CHART_URL = "https://charts.youtube.com/youtubei/v1/browse?alt=json"
 REQUEST_TIMEOUT_SECONDS = 4
 DEFAULT_COUNTRY_CODE = "global"
 DEFAULT_TOP_N = 10
+TARGET_LIST_TYPE = "TOP_VIEWS_CHART"
+TARGET_CHART_PERIOD_TYPE = "CHART_PERIOD_TYPE_WEEKLY"
 COUNTRY_CODE_MAP = {
     "argentina": "AR",
 }
@@ -149,6 +151,11 @@ def build_custom_chart_json(api_data, country_code, top_n):
         track_types = renderer.get("content", {}).get("trackTypes", [])
 
         for track_type in track_types:
+            if track_type.get("listType") != TARGET_LIST_TYPE:
+                continue
+            if track_type.get("chartPeriodType") != TARGET_CHART_PERIOD_TYPE:
+                continue
+
             top_tracks = []
             for track in track_type.get("trackViews", [])[:top_n]:
                 meta = track.get("chartEntryMetadata", {})
