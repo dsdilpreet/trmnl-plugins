@@ -1,29 +1,31 @@
 {% assign chart = trackTypes[0] %}
-<div class="layout" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+<div class="layout layout--col layout--top">
   {% if chart and chart.topTracks %}
-    <div>
-      <h5 style="margin: 0 0 6px 0;">Top 3</h5>
-      <div class="label" style="margin-bottom: 8px;">{{ countryCode | upcase }}</div>
+    <div class="label" style="margin-bottom: 4px;">{{ countryCode | upcase }}</div>
 
-      {% for track in chart.topTracks limit: 3 %}
-        <div class="item" style="margin-bottom: 6px;">
-          <div class="meta">{{ track.currentPosition | default: forloop.index }}</div>
-          <div class="content">
-            <span class="value value--small">{{ track.title | default: "Unknown" | truncate: 24 }}</span>
-            <span class="label">{{ track.viewCount | default: "-" }}</span>
-          </div>
+    {% for track in chart.topTracks limit: 3 %}
+      <div class="item">
+        <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index }}</span></div>
+        <div class="icon">
+          {% if track.thumbnailUrl %}
+            <img class="image image--xsmall image--cover image-dither" src="{{ track.thumbnailUrl }}">
+          {% endif %}
         </div>
-      {% endfor %}
-    </div>
+        <div class="content">
+          <span class="title title--small">{{ track.title | default: "Unknown" | truncate: 20 }}</span>
+          <span class="label label--small">{{ track.viewCount | default: "-" }}</span>
+        </div>
+      </div>
+    {% endfor %}
   {% else %}
-    <div class="flex flex--col flex--center" style="height: 80%; justify-content: center; text-align: center;">
-      <div class="value value--small">No data</div>
+    <div class="layout layout--col layout--center">
+      <span class="value value--small">No data</span>
     </div>
   {% endif %}
 </div>
 
 <div class="title_bar">
-  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <img class="image image--adaptive" src="https://trmnl.com/images/plugins/trmnl--render.svg">
   <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
   <span class="instance">Updated {{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
 </div>

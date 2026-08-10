@@ -1,49 +1,64 @@
 {% assign chart = trackTypes[0] %}
-<div class="layout" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+<div class="layout layout--col layout--top">
   {% if chart and chart.topTracks %}
-    <div>
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-        <h4 style="margin: 0;">Top Views Weekly</h4>
-        <span class="label">{{ countryCode | upcase }}</span>
+    <div class="flex flex--row" style="justify-content: space-between; margin-bottom: 6px;">
+      <span class="label">{{ countryCode | upcase }}</span>
+      <span class="label">Week Ending {{ chart.endDate | default: "-" }}</span>
+    </div>
+
+    <div class="flex flex--row" style="gap: 8px; width: 100%;">
+      <div class="flex flex--col" style="flex: 1;">
+        {% for track in chart.topTracks limit: 5 %}
+          <div class="item">
+            <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index }}</span></div>
+            <div class="icon">
+              {% if track.thumbnailUrl %}
+                <img class="image image--xsmall image--cover image-dither" src="{{ track.thumbnailUrl }}">
+              {% endif %}
+            </div>
+            <div class="content">
+              <span class="title title--small">{{ track.title | default: "Unknown" | truncate: 26 }}</span>
+              <span class="description">{{ track.artists | default: "Unknown" | truncate: 34 }}</span>
+              <div class="flex gap--small">
+                <span class="label label--small label--underline">{{ track.viewCount | default: "-" }} views</span>
+                <span class="label label--small label--underline">{{ track.percentViewsChange | default: "-" }}</span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
       </div>
-      <div class="label" style="margin-bottom: 8px;">Week Ending {{ chart.endDate | default: "-" }}</div>
 
-      <div style="display: flex; gap: 10px;">
-        <div style="flex: 1;">
-          {% for track in chart.topTracks limit: 5 %}
-            <div class="item" style="margin-bottom: 4px;">
-              <div class="meta">{{ track.currentPosition | default: forloop.index }}</div>
-              <div class="content">
-                <span class="value value--small">{{ track.title | default: "Unknown" | truncate: 30 }}</span>
-                <span class="label">{{ track.artists | default: "Unknown" | truncate: 34 }} • {{ track.viewCount | default: "-" }}</span>
+      <div class="flex flex--col" style="flex: 1;">
+        {% for track in chart.topTracks offset: 5 limit: 5 %}
+          <div class="item">
+            <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index | plus: 5 }}</span></div>
+            <div class="icon">
+              {% if track.thumbnailUrl %}
+                <img class="image image--xsmall image--cover image-dither" src="{{ track.thumbnailUrl }}">
+              {% endif %}
+            </div>
+            <div class="content">
+              <span class="title title--small">{{ track.title | default: "Unknown" | truncate: 26 }}</span>
+              <span class="description">{{ track.artists | default: "Unknown" | truncate: 34 }}</span>
+              <div class="flex gap--small">
+                <span class="label label--small label--underline">{{ track.viewCount | default: "-" }} views</span>
+                <span class="label label--small label--underline">{{ track.percentViewsChange | default: "-" }}</span>
               </div>
             </div>
-          {% endfor %}
-        </div>
-
-        <div style="flex: 1;">
-          {% for track in chart.topTracks offset: 5 limit: 5 %}
-            <div class="item" style="margin-bottom: 4px;">
-              <div class="meta">{{ track.currentPosition | default: forloop.index | plus: 5 }}</div>
-              <div class="content">
-                <span class="value value--small">{{ track.title | default: "Unknown" | truncate: 30 }}</span>
-                <span class="label">{{ track.artists | default: "Unknown" | truncate: 34 }} • {{ track.viewCount | default: "-" }}</span>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
   {% else %}
-    <div class="flex flex--col flex--center" style="height: 80%; justify-content: center; text-align: center;">
-      <div class="value value--small">No weekly chart data available.</div>
-      <div class="label">Try another country in plugin settings.</div>
+    <div class="layout layout--col layout--center">
+      <span class="value value--small">No weekly chart data available.</span>
+      <span class="label">Try another country in plugin settings.</span>
     </div>
   {% endif %}
 </div>
 
 <div class="title_bar">
-  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <img class="image image--adaptive" src="https://trmnl.com/images/plugins/trmnl--render.svg">
   <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
   <span class="instance">Updated {{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
 </div>
