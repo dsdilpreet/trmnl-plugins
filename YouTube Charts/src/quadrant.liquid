@@ -1,0 +1,29 @@
+{% assign chart = trackTypes[0] %}
+<div class="layout" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+  {% if chart and chart.topTracks %}
+    <div>
+      <h5 style="margin: 0 0 6px 0;">Top 3</h5>
+      <div class="label" style="margin-bottom: 8px;">{{ countryCode | upcase }}</div>
+
+      {% for track in chart.topTracks limit: 3 %}
+        <div class="item" style="margin-bottom: 6px;">
+          <div class="meta">{{ track.currentPosition | default: forloop.index }}</div>
+          <div class="content">
+            <span class="value value--small">{{ track.title | default: "Unknown" | truncate: 24 }}</span>
+            <span class="label">{{ track.viewCount | default: "-" }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="flex flex--col flex--center" style="height: 80%; justify-content: center; text-align: center;">
+      <div class="value value--small">No data</div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">Updated {{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
+</div>

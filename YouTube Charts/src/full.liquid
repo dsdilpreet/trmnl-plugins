@@ -1,0 +1,49 @@
+{% assign chart = trackTypes[0] %}
+<div class="layout" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+  {% if chart and chart.topTracks %}
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+        <h4 style="margin: 0;">Top Views Weekly</h4>
+        <span class="label">{{ countryCode | upcase }}</span>
+      </div>
+      <div class="label" style="margin-bottom: 8px;">Week Ending {{ chart.endDate | default: "-" }}</div>
+
+      <div style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+          {% for track in chart.topTracks limit: 5 %}
+            <div class="item" style="margin-bottom: 4px;">
+              <div class="meta">{{ track.currentPosition | default: forloop.index }}</div>
+              <div class="content">
+                <span class="value value--small">{{ track.title | default: "Unknown" | truncate: 30 }}</span>
+                <span class="label">{{ track.artists | default: "Unknown" | truncate: 34 }} • {{ track.viewCount | default: "-" }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div style="flex: 1;">
+          {% for track in chart.topTracks offset: 5 limit: 5 %}
+            <div class="item" style="margin-bottom: 4px;">
+              <div class="meta">{{ track.currentPosition | default: forloop.index | plus: 5 }}</div>
+              <div class="content">
+                <span class="value value--small">{{ track.title | default: "Unknown" | truncate: 30 }}</span>
+                <span class="label">{{ track.artists | default: "Unknown" | truncate: 34 }} • {{ track.viewCount | default: "-" }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="flex flex--col flex--center" style="height: 80%; justify-content: center; text-align: center;">
+      <div class="value value--small">No weekly chart data available.</div>
+      <div class="label">Try another country in plugin settings.</div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">Updated {{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
+</div>
