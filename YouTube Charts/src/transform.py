@@ -220,14 +220,13 @@ def build_custom_chart_json(api_data, country_code, top_n):
         renderer = section.get("musicAnalyticsSectionRenderer", {})
         content = renderer.get("content", {})
         all_track_types.extend(content.get("trackTypes", []))
-        all_video_types.extend(content.get("videoTypes", []) or content.get("videos", []))
+        all_video_types.extend(content.get("videos", []))
 
     tracks_daily = find_chart_type(all_track_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_DAILY)
     tracks_weekly = find_chart_type(all_track_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_WEEKLY)
-    video_source_types = all_video_types or all_track_types
-    videos_daily = find_chart_type(video_source_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_DAILY)
-    videos_weekly = find_chart_type(video_source_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_WEEKLY)
-    videos_trending = find_chart_type(video_source_types, TARGET_TRENDING_LIST_TYPE)
+    videos_daily = find_chart_type(all_video_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_DAILY)
+    videos_weekly = find_chart_type(all_video_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_WEEKLY)
+    videos_trending = find_chart_type(all_video_types, TARGET_TRENDING_LIST_TYPE)
 
     return {
         "countryCode": country_code,
