@@ -1,9 +1,9 @@
-{% assign chart = trackTypes[0] %}
+{% assign chart = tracksWeekly | default: tracksDaily %}
 <div class="layout layout--col layout--top">
-  {% if chart and chart.topTracks %}
+  {% if chart and chart.trackViews %}
     <div class="label" style="margin-bottom: 4px;">{{ countryCode | upcase }}</div>
 
-    {% for track in chart.topTracks limit: 3 %}
+    {% for track in chart.trackViews limit: 3 %}
       <div class="item">
         <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index }}</span></div>
         <div class="icon">

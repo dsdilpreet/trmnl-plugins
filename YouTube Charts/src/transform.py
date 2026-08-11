@@ -6,8 +6,10 @@ CHART_URL = "https://charts.youtube.com/youtubei/v1/browse?alt=json"
 REQUEST_TIMEOUT_SECONDS = 4
 DEFAULT_COUNTRY_CODE = "global"
 DEFAULT_TOP_N = 10
-TARGET_LIST_TYPE = "TOP_VIEWS_CHART"
-TARGET_CHART_PERIOD_TYPE = "CHART_PERIOD_TYPE_WEEKLY"
+TARGET_TOP_VIEWS_LIST_TYPE = "TOP_VIEWS_CHART"
+TARGET_TRENDING_LIST_TYPE = "TRENDING_CHART"
+TARGET_CHART_PERIOD_TYPE_DAILY = "CHART_PERIOD_TYPE_DAILY"
+TARGET_CHART_PERIOD_TYPE_WEEKLY = "CHART_PERIOD_TYPE_WEEKLY"
 COUNTRY_CODE_MAP = {
     "argentina": "AR",
 }
@@ -138,6 +140,73 @@ def extract_thumbnail(track):
     return best_thumbnail.get("url")
 
 
+def build_top_track(track):
+    meta = track.get("chartEntryMetadata", {})
+    thumbnail_url = extract_thumbnail(track)
+
+    return {
+        "title": track.get("name", "Unknown"),
+        "artists": format_artists(track.get("artists", [])),
+        "thumbnailUrl": thumbnail_url,
+        "viewCount": track.get("viewCount", "-"),
+        "currentPosition": meta.get("currentPosition", "-"),
+        "previousPosition": meta.get("previousPosition", "-"),
+        "percentViewsChange": format_change(meta.get("percentViewsChange")),
+        "periodsOnChart": meta.get("periodsOnChart", "-"),
+    }
+
+
+def build_video_view(video):
+    meta = video.get("chartEntryMetadata", {})
+    thumbnail_url = extract_thumbnail(video)
+    return {
+        "title": video.get("title", "Unknown"),
+        "artists": format_artists(video.get("artists", [])),
+        "thumbnailUrl": thumbnail_url,
+        "viewCount": video.get("viewCount", "-"),
+        "currentPosition": meta.get("currentPosition", "-"),
+        "previousPosition": meta.get("previousPosition", "-"),
+        "percentViewsChange": format_change(meta.get("percentViewsChange")),
+        "periodsOnChart": meta.get("periodsOnChart", "-"),
+    }
+
+
+def build_track_chart_type(track_type, top_n):
+    track_views = []
+    for track in track_type.get("trackViews", [])[:top_n]:
+        track_views.append(build_top_track(track))
+
+    return {
+        "listType": track_type.get("listType"),
+        "chartPeriodType": track_type.get("chartPeriodType"),
+        "endDate": track_type.get("endDate"),
+        "trackViews": track_views,
+    }
+
+
+def build_video_chart_type(track_type, top_n):
+    video_views = []
+    for video in track_type.get("videoViews", [])[:top_n]:
+        video_views.append(build_video_view(video))
+
+    return {
+        "listType": track_type.get("listType"),
+        "chartPeriodType": track_type.get("chartPeriodType"),
+        "endDate": track_type.get("endDate"),
+        "videoViews": video_views,
+    }
+
+
+def find_chart_type(track_types, list_type, chart_period_type=None):
+    for track_type in track_types:
+        if track_type.get("listType") != list_type:
+            continue
+        if chart_period_type is not None and track_type.get("chartPeriodType") != chart_period_type:
+            continue
+        return track_type
+    return None
+
+
 def build_custom_chart_json(api_data, country_code, top_n):
     section_contents = (
         api_data.get("contents", {})
@@ -145,47 +214,28 @@ def build_custom_chart_json(api_data, country_code, top_n):
         .get("contents", [])
     )
 
-    custom_track_types = []
+    all_track_types = []
+    all_video_types = []
     for section in section_contents:
         renderer = section.get("musicAnalyticsSectionRenderer", {})
-        track_types = renderer.get("content", {}).get("trackTypes", [])
+        content = renderer.get("content", {})
+        all_track_types.extend(content.get("trackTypes", []))
+        all_video_types.extend(content.get("videoTypes", []) or content.get("videos", []))
 
-        for track_type in track_types:
-            if track_type.get("listType") != TARGET_LIST_TYPE:
-                continue
-            if track_type.get("chartPeriodType") != TARGET_CHART_PERIOD_TYPE:
-                continue
-
-            top_tracks = []
-            for track in track_type.get("trackViews", [])[:top_n]:
-                meta = track.get("chartEntryMetadata", {})
-                thumbnail_url = extract_thumbnail(track)
-
-                top_tracks.append(
-                    {
-                        "title": track.get("name", "Unknown"),
-                        "artists": format_artists(track.get("artists", [])),
-                        "thumbnailUrl": thumbnail_url,
-                        "viewCount": track.get("viewCount", "-"),
-                        "currentPosition": meta.get("currentPosition", "-"),
-                        "previousPosition": meta.get("previousPosition", "-"),
-                        "percentViewsChange": format_change(meta.get("percentViewsChange")),
-                        "periodsOnChart": meta.get("periodsOnChart", "-"),
-                    }
-                )
-
-            custom_track_types.append(
-                {
-                    "listType": track_type.get("listType"),
-                    "chartPeriodType": track_type.get("chartPeriodType"),
-                    "endDate": track_type.get("endDate"),
-                    "topTracks": top_tracks,
-                }
-            )
+    tracks_daily = find_chart_type(all_track_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_DAILY)
+    tracks_weekly = find_chart_type(all_track_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_WEEKLY)
+    video_source_types = all_video_types or all_track_types
+    videos_daily = find_chart_type(video_source_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_DAILY)
+    videos_weekly = find_chart_type(video_source_types, TARGET_TOP_VIEWS_LIST_TYPE, TARGET_CHART_PERIOD_TYPE_WEEKLY)
+    videos_trending = find_chart_type(video_source_types, TARGET_TRENDING_LIST_TYPE)
 
     return {
         "countryCode": country_code,
-        "trackTypes": custom_track_types,
+        "tracksDaily": build_track_chart_type(tracks_daily, top_n) if tracks_daily else None,
+        "tracksWeekly": build_track_chart_type(tracks_weekly, top_n) if tracks_weekly else None,
+        "videosDaily": build_video_chart_type(videos_daily, top_n) if videos_daily else None,
+        "videosWeekly": build_video_chart_type(videos_weekly, top_n) if videos_weekly else None,
+        "videosTrending": build_video_chart_type(videos_trending, top_n) if videos_trending else None,
     }
 
 

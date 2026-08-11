@@ -1,6 +1,6 @@
-{% assign chart = trackTypes[0] %}
+{% assign chart = tracksWeekly | default: tracksDaily %}
 <div class="layout layout--col layout--top">
-  {% if chart and chart.topTracks %}
+  {% if chart and chart.trackViews %}
     <div class="flex flex--row" style="justify-content: space-between; margin-bottom: 6px;">
       <span class="label">{{ countryCode | upcase }}</span>
       <span class="label">Week Ending {{ chart.endDate | default: "-" }}</span>
@@ -8,7 +8,7 @@
 
     <div class="flex flex--row" style="gap: 8px; width: 100%;">
       <div class="flex flex--col" style="flex: 1;">
-        {% for track in chart.topTracks limit: 5 %}
+        {% for track in chart.trackViews limit: 5 %}
           <div class="item">
             <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index }}</span></div>
             <div class="icon">
@@ -29,7 +29,7 @@
       </div>
 
       <div class="flex flex--col" style="flex: 1;">
-        {% for track in chart.topTracks offset: 5 limit: 5 %}
+        {% for track in chart.trackViews offset: 5 limit: 5 %}
           <div class="item">
             <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index | plus: 5 }}</span></div>
             <div class="icon">
