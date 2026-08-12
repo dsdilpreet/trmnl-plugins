@@ -1,19 +1,19 @@
-{% assign chart = tracksWeekly | default: tracksDaily %}
+{% assign chart = videosDaily | default: videosWeekly %}
 <div class="layout layout--col layout--top">
-  {% if chart and chart.trackViews %}
-    <div class="label" style="margin-bottom: 4px;">{{ countryCode | upcase }}</div>
+  {% if chart and chart.videoViews %}
+    <div class="label" style="margin-bottom: 2px;">Top Music Videos</div>
 
-    {% for track in chart.trackViews limit: 3 %}
+    {% for video in chart.videoViews limit: 3 %}
       <div class="item">
-        <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index }}</span></div>
+        <div class="meta"><span class="index">{{ video.currentPosition | default: forloop.index }}</span></div>
         <div class="icon">
-          {% if track.thumbnailUrl %}
-            <img class="image image--xsmall image--cover image-dither" src="{{ track.thumbnailUrl }}">
+          {% if video.thumbnailUrl %}
+            <img class="image image--xsmall image--cover image-dither" src="{{ video.thumbnailUrl }}">
           {% endif %}
         </div>
         <div class="content">
-          <span class="title title--small">{{ track.title | default: "Unknown" | truncate: 20 }}</span>
-          <span class="label label--small">{{ track.viewCount | default: "-" }}</span>
+          <span class="title title--small">{{ video.title | default: "Unknown" | truncate: 20 }}</span>
+          <span class="label label--small">{{ video.viewCount | default: "-" }}</span>
         </div>
       </div>
     {% endfor %}
@@ -26,6 +26,6 @@
 
 <div class="title_bar">
   <img class="image image--adaptive" src="https://trmnl.com/images/plugins/trmnl--render.svg">
-  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
-  <span class="instance">Updated {{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
+  <span class="title">{{ trmnl.plugin_settings.instance_name }} • {{ country.name | default: "Global" }}</span>
+  <span class="instance">{{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
 </div>

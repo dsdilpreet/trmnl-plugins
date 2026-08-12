@@ -5,6 +5,7 @@ import requests
 CHART_URL = "https://charts.youtube.com/youtubei/v1/browse?alt=json"
 REQUEST_TIMEOUT_SECONDS = 4
 DEFAULT_COUNTRY_CODE = "global"
+DEFAULT_COUNTRY_NAME = "Global"
 DEFAULT_TOP_N = 10
 TARGET_TOP_VIEWS_LIST_TYPE = "TOP_VIEWS_CHART"
 TARGET_TRENDING_LIST_TYPE = "TRENDING_CHART"
@@ -82,6 +83,20 @@ def get_country_code(input_data):
         return DEFAULT_COUNTRY_CODE
 
     return COUNTRY_CODE_MAP.get(country.strip().lower(), DEFAULT_COUNTRY_CODE)
+
+
+def get_country_name(input_data):
+    country = (
+        input_data.get("trmnl", {})
+        .get("plugin_settings", {})
+        .get("custom_fields_values", {})
+        .get("country", "")
+    )
+
+    if not isinstance(country, str) or not country.strip():
+        return DEFAULT_COUNTRY_NAME
+
+    return country.strip().title()
 
 
 def build_request_payload(country_code):
@@ -217,7 +232,7 @@ def find_chart_type(track_types, list_type, chart_period_type=None):
     return None
 
 
-def build_custom_chart_json(api_data, country_code, top_n):
+def build_custom_chart_json(api_data, country_code, country_name, top_n):
     section_contents = (
         api_data.get("contents", {})
         .get("sectionListRenderer", {})
@@ -239,7 +254,10 @@ def build_custom_chart_json(api_data, country_code, top_n):
     videos_trending = find_chart_type(all_video_types, TARGET_TRENDING_LIST_TYPE)
 
     return {
-        "countryCode": country_code,
+        "country": {
+            "name": country_name,
+            "code": country_code,
+        },
         "tracksDaily": build_track_chart_type(tracks_daily, top_n) if tracks_daily else None,
         "tracksWeekly": build_track_chart_type(tracks_weekly, top_n) if tracks_weekly else None,
         "videosDaily": build_video_chart_type(videos_daily, top_n) if videos_daily else None,
@@ -250,25 +268,32 @@ def build_custom_chart_json(api_data, country_code, top_n):
 
 def run(input):
     country_code = get_country_code(input)
+    country_name = get_country_name(input)
     top_n = DEFAULT_TOP_N
     last_updated_local_time = get_user_local_time(input)
 
     try:
         api_data = fetch_chart_data(country_code, input)
-        output = build_custom_chart_json(api_data, country_code, top_n)
+        output = build_custom_chart_json(api_data, country_code, country_name, top_n)
         output["lastUpdatedLocalTime"] = last_updated_local_time
         return output
     except requests.RequestException as exc:
         return {
             "error": "Request failed",
-            "countryCode": country_code,
+            "country": {
+                "name": country_name,
+                "code": country_code,
+            },
             "lastUpdatedLocalTime": last_updated_local_time,
             "message": str(exc),
         }
     except ValueError as exc:
         return {
             "error": "Invalid JSON response",
-            "countryCode": country_code,
+            "country": {
+                "name": country_name,
+                "code": country_code,
+            },
             "lastUpdatedLocalTime": last_updated_local_time,
             "message": str(exc),
         }

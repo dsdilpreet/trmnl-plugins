@@ -1,27 +1,29 @@
-{% assign chart = tracksWeekly | default: tracksDaily %}
+{% assign top_chart = videosDaily | default: videosWeekly %}
+{% assign trending_chart = videosTrending %}
 <div class="layout layout--col layout--top">
-  {% if chart and chart.trackViews %}
-    <div class="flex flex--row" style="justify-content: space-between; margin-bottom: 6px;">
-      <span class="label">{{ countryCode | upcase }}</span>
-      <span class="label">Week Ending {{ chart.endDate | default: "-" }}</span>
-    </div>
-
+  {% if top_chart and top_chart.videoViews %}
     <div class="flex flex--row" style="gap: 8px; width: 100%;">
       <div class="flex flex--col" style="flex: 1;">
-        {% for track in chart.trackViews limit: 5 %}
+        <span class="label" style="margin-bottom: 4px;">Top Music Videos</span>
+        {% if trending_chart and trending_chart.videoViews %}
+          {% assign top_items_limit = 6 %}
+        {% else %}
+          {% assign top_items_limit = 5 %}
+        {% endif %}
+        {% for video in top_chart.videoViews limit: top_items_limit %}
           <div class="item">
-            <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index }}</span></div>
+            <div class="meta"><span class="index">{{ video.currentPosition | default: forloop.index }}</span></div>
             <div class="icon">
-              {% if track.thumbnailUrl %}
-                <img class="image image--xsmall image--cover image-dither" src="{{ track.thumbnailUrl }}">
+              {% if video.thumbnailUrl %}
+                <img class="image image--xsmall image--cover image-dither" src="{{ video.thumbnailUrl }}">
               {% endif %}
             </div>
             <div class="content">
-              <span class="title title--small">{{ track.title | default: "Unknown" | truncate: 26 }}</span>
-              <span class="description">{{ track.artists | default: "Unknown" | truncate: 34 }}</span>
+              <span class="title title--small">{{ video.title | default: "Unknown" | truncate: 26 }}</span>
+              <span class="description">{{ video.artists | default: "Unknown" | truncate: 34 }}</span>
               <div class="flex gap--small">
-                <span class="label label--small label--underline">{{ track.viewCount | default: "-" }} views</span>
-                <span class="label label--small label--underline">{{ track.percentViewsChange | default: "-" }}</span>
+                <span class="label label--small label--underline">{{ video.viewCount | default: "-" }} views</span>
+                <span class="label label--small label--underline">{{ video.percentViewsChange | default: "-" }}</span>
               </div>
             </div>
           </div>
@@ -29,29 +31,51 @@
       </div>
 
       <div class="flex flex--col" style="flex: 1;">
-        {% for track in chart.trackViews offset: 5 limit: 5 %}
-          <div class="item">
-            <div class="meta"><span class="index">{{ track.currentPosition | default: forloop.index | plus: 5 }}</span></div>
-            <div class="icon">
-              {% if track.thumbnailUrl %}
-                <img class="image image--xsmall image--cover image-dither" src="{{ track.thumbnailUrl }}">
-              {% endif %}
-            </div>
-            <div class="content">
-              <span class="title title--small">{{ track.title | default: "Unknown" | truncate: 26 }}</span>
-              <span class="description">{{ track.artists | default: "Unknown" | truncate: 34 }}</span>
-              <div class="flex gap--small">
-                <span class="label label--small label--underline">{{ track.viewCount | default: "-" }} views</span>
-                <span class="label label--small label--underline">{{ track.percentViewsChange | default: "-" }}</span>
+        {% if trending_chart and trending_chart.videoViews %}
+          <span class="label" style="margin-bottom: 4px;">Trending Music Videos</span>
+          {% for video in trending_chart.videoViews limit: 6 %}
+            <div class="item">
+              <div class="meta"><span class="index">{{ video.currentPosition | default: forloop.index }}</span></div>
+              <div class="icon">
+                {% if video.thumbnailUrl %}
+                  <img class="image image--xsmall image--cover image-dither" src="{{ video.thumbnailUrl }}">
+                {% endif %}
+              </div>
+              <div class="content">
+                <span class="title title--small">{{ video.title | default: "Unknown" | truncate: 26 }}</span>
+                <span class="description">{{ video.artists | default: "Unknown" | truncate: 34 }}</span>
+                <div class="flex gap--small">
+                  <span class="label label--small label--underline">{{ video.viewCount | default: "-" }} views</span>
+                  <span class="label label--small label--underline">{{ video.percentViewsChange | default: "-" }}</span>
+                </div>
               </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        {% else %}
+          {% for video in top_chart.videoViews offset: 5 limit: 5 %}
+            <div class="item">
+              <div class="meta"><span class="index">{{ video.currentPosition | default: forloop.index | plus: 5 }}</span></div>
+              <div class="icon">
+                {% if video.thumbnailUrl %}
+                  <img class="image image--xsmall image--cover image-dither" src="{{ video.thumbnailUrl }}">
+                {% endif %}
+              </div>
+              <div class="content">
+                <span class="title title--small">{{ video.title | default: "Unknown" | truncate: 26 }}</span>
+                <span class="description">{{ video.artists | default: "Unknown" | truncate: 34 }}</span>
+                <div class="flex gap--small">
+                  <span class="label label--small label--underline">{{ video.viewCount | default: "-" }} views</span>
+                  <span class="label label--small label--underline">{{ video.percentViewsChange | default: "-" }}</span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   {% else %}
     <div class="layout layout--col layout--center">
-      <span class="value value--small">No weekly chart data available.</span>
+      <span class="value value--small">No top video chart data available.</span>
       <span class="label">Try another country in plugin settings.</span>
     </div>
   {% endif %}
@@ -59,6 +83,6 @@
 
 <div class="title_bar">
   <img class="image image--adaptive" src="https://trmnl.com/images/plugins/trmnl--render.svg">
-  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
-  <span class="instance">Updated {{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
+  <span class="title">{{ trmnl.plugin_settings.instance_name }} • {{ country.name | default: "Global" }}</span>
+  <span class="instance">{{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
 </div>
