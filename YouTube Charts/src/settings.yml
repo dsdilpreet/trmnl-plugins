@@ -39,6 +39,16 @@ custom_fields:
   options:
   - Global
   - Argentina
+  - Australia
+  - Austria
+  - Belgium
+  - Bolivia
+  - Brazil
+  - Canada
+  - Chile
+  - Colombia
+  - Costa Rica
+  - Czechia
 name: YouTube Charts
 description: ''
 refresh_interval: 15

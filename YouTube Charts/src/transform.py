@@ -12,6 +12,16 @@ TARGET_CHART_PERIOD_TYPE_DAILY = "CHART_PERIOD_TYPE_DAILY"
 TARGET_CHART_PERIOD_TYPE_WEEKLY = "CHART_PERIOD_TYPE_WEEKLY"
 COUNTRY_CODE_MAP = {
     "argentina": "AR",
+    "australia": "AU",
+    "austria": "AT",
+    "belgium": "BE",
+    "bolivia": "BO",
+    "brazil": "BR",
+    "canada": "CA",
+    "chile": "CL",
+    "colombia": "CO",
+    "costa rica": "CR",
+    "czechia": "CZ",
 }
 
 
