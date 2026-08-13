@@ -49,6 +49,63 @@ custom_fields:
   - Colombia
   - Costa Rica
   - Czechia
+  - Denmark
+  - Dominican Republic
+  - Ecuador
+  - Egypt
+  - El Salvador
+  - Estonia
+  - Finland
+  - France
+  - Germany
+  - Guatemala
+  - Honduras
+  - Hong Kong
+  - Hungary
+  - Iceland
+  - India
+  - Indonesia
+  - Ireland
+  - Israel
+  - Italy
+  - Japan
+  - Kenya
+  - Luxembourg
+  - Malaysia
+  - Mexico
+  - Netherlands
+  - New Zealand
+  - Nicaragua
+  - Nigeria
+  - Norway
+  - Panama
+  - Paraguay
+  - Peru
+  - Philippines
+  - Poland
+  - Portugal
+  - Romania
+  - Russia
+  - Saudi Arabia
+  - Serbia
+  - Singapore
+  - South Africa
+  - South Korea
+  - Spain
+  - Sweden
+  - Switzerland
+  - Taiwan
+  - Tanzania
+  - Thailand
+  - Turkey
+  - Uganda
+  - Ukraine
+  - United Arab Emirates
+  - United Kingdom
+  - United States
+  - Uruguay
+  - Vietnam
+  - Zimbabwe
 name: YouTube Charts
 description: ''
 refresh_interval: 15
