@@ -7,9 +7,9 @@
       <div class="flex flex--row portrait:flex--col" style="gap: 10px; width: 100%;">
         <div class="flex flex--col" style="flex: 1;">
           <span class="label lg:label--large" style="margin-bottom: 6px;">
-            {% if top_chart_period == "daily" %}
+            {% if top_chart_period contains "daily" %}
               Daily Top Music Videos
-            {% elsif top_chart_period == "weekly" %}
+            {% elsif top_chart_period contains "weekly" %}
               Weekly Top Music Videos
             {% else %}
               Top Music Videos
@@ -61,9 +61,9 @@
       </div>
     {% else %}
       <span class="label" style="margin-bottom: 6px; display: block; text-align: center; width: 100%;">
-        {% if top_chart_period == "daily" %}
+        {% if top_chart_period contains "daily" %}
           Daily Top Music Videos
-        {% elsif top_chart_period == "weekly" %}
+        {% elsif top_chart_period contains "weekly" %}
           Weekly Top Music Videos
         {% else %}
           Top Music Videos
