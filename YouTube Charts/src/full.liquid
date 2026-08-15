@@ -1,6 +1,11 @@
 {% assign top_chart = videosDaily | default: videosWeekly %}
 {% assign top_chart_period = top_chart.chartPeriodType | downcase %}
 {% assign trending_chart = videosTrending %}
+<style>
+  .title-lg-only { display: none; }
+  .screen--lg .title-lg-only { display: inline; }
+  .screen--lg .title-base-only { display: none; }
+</style>
 <div class="layout layout--col layout--top">
   {% if top_chart and top_chart.videoViews %}
     {% if trending_chart and trending_chart.videoViews %}
@@ -17,15 +22,17 @@
           </span>
           <div class="flex flex--col" data-overflow="true">
             {% for video in top_chart.videoViews %}
-              <div class="item" style="margin-bottom: 10px;">
+              <div class="item mb--1 lg:mb--2">
                 <div class="icon" style="width: 96px; min-width: 96px; align-self: stretch;">
                   {% if video.thumbnailUrl %}
                     <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                   {% endif %}
                 </div>
                 <div class="content">
-                  <span class="title">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
-                  <span class="description description--large">{{ video.artists | default: "Unknown" | truncate: 32 }}</span>
+                  <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
+                  <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large title-base-only">{{ video.artists | default: "Unknown" | truncate: 32 }}</span>
+                  <span class="description description--large title-lg-only">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
                   <div class="flex gap--small">
                     <span class="label">{{ video.viewCount | default: "-" }} views</span>
                     <span class="label">{{ video.percentViewsChange | default: "-" }}</span>
@@ -40,15 +47,17 @@
           <span class="label lg:label--large" style="margin-bottom: 6px;">Trending Music Videos</span>
           <div class="flex flex--col" data-overflow="true">
             {% for video in trending_chart.videoViews %}
-              <div class="item" style="margin-bottom: 10px;">
+              <div class="item mb--1 lg:mb--2">
                 <div class="icon" style="width: 96px; min-width: 96px; align-self: stretch;">
                   {% if video.thumbnailUrl %}
                     <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                   {% endif %}
                 </div>
                 <div class="content">
-                  <span class="title">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
-                  <span class="description description--large">{{ video.artists | default: "Unknown" | truncate: 32 }}</span>
+                  <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
+                  <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large title-base-only">{{ video.artists | default: "Unknown" | truncate: 32 }}</span>
+                  <span class="description description--large title-lg-only">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
                   <div class="flex gap--small">
                     <span class="label">{{ video.viewCount | default: "-" }} views</span>
                     <span class="label">{{ video.percentViewsChange | default: "-" }}</span>
@@ -72,15 +81,17 @@
       <div class="columns" data-overflow-max-cols="2" data-overflow-max-cols-portrait="1" style="column-gap: 10px;">
         <div class="column">
           {% for video in top_chart.videoViews %}
-            <div class="item" style="margin-bottom: 10px;">
+            <div class="item mb--1 lg:mb--2">
               <div class="icon" style="width: 96px; min-width: 96px; align-self: stretch;">
                 {% if video.thumbnailUrl %}
                   <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                 {% endif %}
               </div>
               <div class="content">
-                <span class="title">{{ video.title | default: "Unknown" | truncate: 28 }}</span>
-                <span class="description description--large">{{ video.artists | default: "Unknown" | truncate: 36 }}</span>
+                <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 28 }}</span>
+                <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 34 }}</span>
+                <span class="description description--large title-base-only">{{ video.artists | default: "Unknown" | truncate: 36 }}</span>
+                <span class="description description--large title-lg-only">{{ video.artists | default: "Unknown" | truncate: 42 }}</span>
                 <div class="flex gap--small">
                   <span class="label">{{ video.viewCount | default: "-" }} views</span>
                   <span class="label">{{ video.percentViewsChange | default: "-" }}</span>
