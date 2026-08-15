@@ -220,6 +220,37 @@ def format_change(value):
     return f"{value * 100:+.2f}%"
 
 
+def format_view_count(value):
+    if value is None:
+        return "-"
+
+    if isinstance(value, int):
+        numeric_value = value
+    elif isinstance(value, str):
+        normalized = value.strip().lower().replace(",", "")
+        if normalized.endswith(" views"):
+            normalized = normalized[:-6]
+        if not normalized.isdigit():
+            return value
+        numeric_value = int(normalized)
+    else:
+        return value
+
+    suffixes = (
+        (1_000_000_000, "b"),
+        (1_000_000, "m"),
+        (1_000, "k"),
+    )
+    for threshold, suffix in suffixes:
+        if numeric_value >= threshold:
+            short_value = numeric_value / threshold
+            if short_value >= 10 or numeric_value % threshold == 0:
+                return f"{int(short_value)}{suffix}"
+            return f"{short_value:.1f}".rstrip("0").rstrip(".") + suffix
+
+    return str(numeric_value)
+
+
 def extract_thumbnail(track):
     thumbnail_obj = track.get("thumbnail")
     if not isinstance(thumbnail_obj, dict):
@@ -244,7 +275,7 @@ def build_top_track(track):
         "title": track.get("name", "Unknown"),
         "artists": format_artists(track.get("artists", [])),
         "thumbnailUrl": thumbnail_url,
-        "viewCount": track.get("viewCount", "-"),
+        "viewCount": format_view_count(track.get("viewCount")),
         "currentPosition": meta.get("currentPosition", "-"),
         "previousPosition": meta.get("previousPosition", "-"),
         "percentViewsChange": format_change(meta.get("percentViewsChange")),
@@ -259,7 +290,7 @@ def build_video_view(video):
         "title": video.get("title", "Unknown"),
         "artists": format_artists(video.get("artists", [])),
         "thumbnailUrl": thumbnail_url,
-        "viewCount": video.get("viewCount", "-"),
+        "viewCount": format_view_count(video.get("viewCount")),
         "currentPosition": meta.get("currentPosition", "-"),
         "previousPosition": meta.get("previousPosition", "-"),
         "percentViewsChange": format_change(meta.get("percentViewsChange")),
