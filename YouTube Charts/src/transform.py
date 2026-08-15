@@ -21,20 +21,20 @@ COUNTRY_CODE_MAP = {
     "canada": "CA",
     "chile": "CL",
     "colombia": "CO",
-    "costa rica": "CR",
+    "costa_rica": "CR",
     "czechia": "CZ",
     "denmark": "DK",
-    "dominican republic": "DO",
+    "dominican_republic": "DO",
     "ecuador": "EC",
     "egypt": "EG",
-    "el salvador": "SV",
+    "el_salvador": "SV",
     "estonia": "EE",
     "finland": "FI",
     "france": "FR",
     "germany": "DE",
     "guatemala": "GT",
     "honduras": "HN",
-    "hong kong": "HK",
+    "hong_kong": "HK",
     "hungary": "HU",
     "iceland": "IS",
     "india": "IN",
@@ -48,7 +48,7 @@ COUNTRY_CODE_MAP = {
     "malaysia": "MY",
     "mexico": "MX",
     "netherlands": "NL",
-    "new zealand": "NZ",
+    "new_zealand": "NZ",
     "nicaragua": "NI",
     "nigeria": "NG",
     "norway": "NO",
@@ -60,11 +60,11 @@ COUNTRY_CODE_MAP = {
     "portugal": "PT",
     "romania": "RO",
     "russia": "RU",
-    "saudi arabia": "SA",
+    "saudi_arabia": "SA",
     "serbia": "RS",
     "singapore": "SG",
-    "south africa": "ZA",
-    "south korea": "KR",
+    "south_africa": "ZA",
+    "south_korea": "KR",
     "spain": "ES",
     "sweden": "SE",
     "switzerland": "CH",
@@ -74,13 +74,25 @@ COUNTRY_CODE_MAP = {
     "turkey": "TR",
     "uganda": "UG",
     "ukraine": "UA",
-    "united arab emirates": "AE",
-    "united kingdom": "GB",
-    "united states": "US",
+    "united_arab_emirates": "AE",
+    "united_kingdom": "GB",
+    "united_states": "US",
     "uruguay": "UY",
     "vietnam": "VN",
     "zimbabwe": "ZW",
 }
+
+
+def normalize_country_key(country):
+    if not isinstance(country, str):
+        return ""
+
+    normalized = country.strip().lower()
+    if not normalized:
+        return ""
+
+    # Accept either spaces or underscores from settings and normalize to map keys.
+    return normalized.replace(" ", "_")
 
 
 def get_trmnl_user(input_data):
@@ -136,10 +148,11 @@ def get_country_code(input_data):
         .get("country", "")
     )
 
-    if not isinstance(country, str) or not country.strip():
+    country_key = normalize_country_key(country)
+    if not country_key:
         return DEFAULT_COUNTRY_CODE
 
-    return COUNTRY_CODE_MAP.get(country.strip().lower(), DEFAULT_COUNTRY_CODE)
+    return COUNTRY_CODE_MAP.get(country_key, DEFAULT_COUNTRY_CODE)
 
 
 def get_country_name(input_data):
@@ -150,10 +163,11 @@ def get_country_name(input_data):
         .get("country", "")
     )
 
-    if not isinstance(country, str) or not country.strip():
+    country_key = normalize_country_key(country)
+    if not country_key:
         return DEFAULT_COUNTRY_NAME
 
-    return country.strip().title()
+    return country_key.replace("_", " ").title()
 
 
 def build_request_payload(country_code):

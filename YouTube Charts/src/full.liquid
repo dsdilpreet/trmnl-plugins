@@ -2,9 +2,14 @@
 {% assign trending_chart = videosTrending %}
 <div class="layout layout--col layout--top">
   {% if top_chart and top_chart.videoViews %}
+    {% unless trending_chart and trending_chart.videoViews %}
+      <span class="label" style="margin-bottom: 4px; display: block; text-align: center; width: 100%;">Top Music Videos</span>
+    {% endunless %}
     <div class="flex flex--row" style="gap: 8px; width: 100%;">
       <div class="flex flex--col" style="flex: 1;">
-        <span class="label" style="margin-bottom: 4px;">Top Music Videos</span>
+        {% if trending_chart and trending_chart.videoViews %}
+          <span class="label" style="margin-bottom: 4px;">Top Music Videos</span>
+        {% endif %}
         {% if trending_chart and trending_chart.videoViews %}
           {% assign top_items_limit = 6 %}
         {% else %}
@@ -12,10 +17,9 @@
         {% endif %}
         {% for video in top_chart.videoViews limit: top_items_limit %}
           <div class="item">
-            <div class="meta"><span class="index">{{ video.currentPosition | default: forloop.index }}</span></div>
-            <div class="icon">
+            <div class="icon" style="width: 48px; min-width: 48px; align-self: stretch;">
               {% if video.thumbnailUrl %}
-                <img class="image image--xsmall image--cover image-dither" src="{{ video.thumbnailUrl }}">
+                <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
               {% endif %}
             </div>
             <div class="content">
@@ -35,10 +39,9 @@
           <span class="label" style="margin-bottom: 4px;">Trending Music Videos</span>
           {% for video in trending_chart.videoViews limit: 6 %}
             <div class="item">
-              <div class="meta"><span class="index">{{ video.currentPosition | default: forloop.index }}</span></div>
-              <div class="icon">
+              <div class="icon" style="width: 48px; min-width: 48px; align-self: stretch;">
                 {% if video.thumbnailUrl %}
-                  <img class="image image--xsmall image--cover image-dither" src="{{ video.thumbnailUrl }}">
+                  <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                 {% endif %}
               </div>
               <div class="content">
@@ -54,10 +57,9 @@
         {% else %}
           {% for video in top_chart.videoViews offset: 5 limit: 5 %}
             <div class="item">
-              <div class="meta"><span class="index">{{ video.currentPosition | default: forloop.index | plus: 5 }}</span></div>
-              <div class="icon">
+              <div class="icon" style="width: 48px; min-width: 48px; align-self: stretch;">
                 {% if video.thumbnailUrl %}
-                  <img class="image image--xsmall image--cover image-dither" src="{{ video.thumbnailUrl }}">
+                  <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                 {% endif %}
               </div>
               <div class="content">
