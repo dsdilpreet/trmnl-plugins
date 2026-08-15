@@ -31,6 +31,12 @@ oauth_expiry_field_name: ''
 oauth_expiry_strategy: ''
 oauth_fixed_expiry_ms: ''
 custom_fields:
+- keyname: youtube_charts
+  name: Youtube Charts
+  category: entertainment,analytics
+  field_type: author_bio
+  description: Displays top and trending music from YouTube from across the world.
+  github_url: https://github.com/dsdilpreet/trmnl-plugins
 - keyname: country
   name: Country
   field_type: select
@@ -107,5 +113,5 @@ custom_fields:
   - Vietnam
   - Zimbabwe
 name: YouTube Charts
-description: ''
+description: Music charts from across the world.
 refresh_interval: 15
