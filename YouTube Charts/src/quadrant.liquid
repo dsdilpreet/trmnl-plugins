@@ -27,11 +27,11 @@
           <div class="content">
             <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
             <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
-            <span class="description description--large title-base-only">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
-            <span class="description description--large title-lg-only">{{ video.artists | default: "Unknown" | truncate: 36 }}</span>
+            <span class="description description--large title-base-only" style="font-weight: 600;">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
+            <span class="description description--large title-lg-only" style="font-weight: 600;">{{ video.artists | default: "Unknown" | truncate: 36 }}</span>
             <div class="flex gap--small">
-              <span class="label">{{ video.viewCount | default: "-" }} views</span>
-              <span class="label">{{ video.percentViewsChange | default: "-" }}</span>
+              <span class="label" style="font-weight: 600;">{{ video.viewCount | default: "-" }} views</span>
+              <span class="label" style="font-weight: 600;">{{ video.percentViewsChange | default: "-" }}</span>
             </div>
           </div>
         </div>
