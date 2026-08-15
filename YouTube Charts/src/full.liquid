@@ -59,8 +59,10 @@
                   <span class="description description--large title-base-only" style="font-weight: 600;">{{ video.artists | default: "Unknown" | truncate: 32 }}</span>
                   <span class="description description--large title-lg-only" style="font-weight: 600;">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
                   <div class="flex gap--small">
-                    <span class="label" style="font-weight: 600;">{{ video.viewCount | default: "-" }} views</span>
-                    <span class="label" style="font-weight: 600;">{{ video.percentViewsChange | default: "-" }}</span>
+                    <span class="label" style="font-weight: 600;">Released {% if video.releaseDate and video.releaseDate != "-" %}{{ video.releaseDate | date: "%b %-d, %Y" }}{% else %}-{% endif %}</span>
+                    {% if video.percentViewsChange and video.percentViewsChange != "-" %}
+                      <span class="label" style="font-weight: 600;">{{ video.percentViewsChange }}</span>
+                    {% endif %}
                   </div>
                 </div>
               </div>

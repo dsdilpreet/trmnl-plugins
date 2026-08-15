@@ -251,6 +251,32 @@ def format_view_count(value):
     return str(numeric_value)
 
 
+def format_release_date(release_date):
+    if not isinstance(release_date, dict):
+        return "-"
+
+    year = release_date.get("year")
+    month = release_date.get("month")
+    day = release_date.get("day")
+
+    try:
+        year = int(year)
+        month = int(month)
+        day = int(day)
+    except (TypeError, ValueError):
+        return "-"
+
+    if year <= 0:
+        return "-"
+
+    try:
+        parsed_date = datetime(year, month, day)
+    except ValueError:
+        return "-"
+
+    return parsed_date.strftime("%Y-%m-%d")
+
+
 def extract_thumbnail(track):
     thumbnail_obj = track.get("thumbnail")
     if not isinstance(thumbnail_obj, dict):
@@ -286,10 +312,12 @@ def build_top_track(track):
 def build_video_view(video):
     meta = video.get("chartEntryMetadata", {})
     thumbnail_url = extract_thumbnail(video)
+    release_date = video.get("releaseDate")
     return {
         "title": video.get("title", "Unknown"),
         "artists": format_artists(video.get("artists", [])),
         "thumbnailUrl": thumbnail_url,
+        "releaseDate": format_release_date(release_date),
         "viewCount": format_view_count(video.get("viewCount")),
         "currentPosition": meta.get("currentPosition", "-"),
         "previousPosition": meta.get("previousPosition", "-"),
