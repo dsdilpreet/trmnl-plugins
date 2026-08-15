@@ -5,8 +5,8 @@
     <div class="columns" data-overflow-max-cols="2" data-overflow-max-cols-portrait="1" style="column-gap: 10px;">
       <div class="column">
         {% for video in chart.videoViews %}
-          <div class="item" style="margin-bottom: 1px;">
-            <div class="icon" style="width: 44px; min-width: 44px; align-self: stretch;">
+          <div class="item" style="margin-bottom: 8px;">
+            <div class="icon" style="width: 80px; min-width: 80px; align-self: stretch;">
               {% if video.thumbnailUrl %}
                 <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
               {% endif %}

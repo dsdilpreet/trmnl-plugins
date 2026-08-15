@@ -8,8 +8,8 @@
           <span class="label lg:label--large" style="margin-bottom: 6px;">Top Music Videos</span>
           <div class="flex flex--col" data-overflow="true">
             {% for video in top_chart.videoViews %}
-              <div class="item" style="margin-bottom: 2px;">
-                <div class="icon" style="width: 44px; min-width: 44px; align-self: stretch;">
+              <div class="item" style="margin-bottom: 8px;">
+                <div class="icon" style="width: 80px; min-width: 80px; align-self: stretch;">
                   {% if video.thumbnailUrl %}
                     <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                   {% endif %}
@@ -31,8 +31,8 @@
           <span class="label lg:label--large" style="margin-bottom: 6px;">Trending Music Videos</span>
           <div class="flex flex--col" data-overflow="true">
             {% for video in trending_chart.videoViews %}
-              <div class="item" style="margin-bottom: 2px;">
-                <div class="icon" style="width: 44px; min-width: 44px; align-self: stretch;">
+              <div class="item" style="margin-bottom: 8px;">
+                <div class="icon" style="width: 80px; min-width: 80px; align-self: stretch;">
                   {% if video.thumbnailUrl %}
                     <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                   {% endif %}
@@ -55,8 +55,8 @@
       <div class="columns" data-overflow-max-cols="2" data-overflow-max-cols-portrait="1" style="column-gap: 10px;">
         <div class="column">
           {% for video in top_chart.videoViews %}
-            <div class="item" style="margin-bottom: 2px;">
-              <div class="icon" style="width: 44px; min-width: 44px; align-self: stretch;">
+            <div class="item" style="margin-bottom: 8px;">
+              <div class="icon" style="width: 80px; min-width: 80px; align-self: stretch;">
                 {% if video.thumbnailUrl %}
                   <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
                 {% endif %}
