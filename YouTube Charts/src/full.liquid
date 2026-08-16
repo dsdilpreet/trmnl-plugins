@@ -11,7 +11,7 @@
     {% if trending_chart and trending_chart.videoViews %}
       <div class="flex flex--row portrait:flex--col gap--2.5 w--full">
         <div class="flex flex--col w--[50cqw] portrait:w--full">
-          <div class="label lg:label--large mb--1.5">
+          <div class="label lg:label--large mb--1.5 lg:mb--2">
             {% if top_chart_period contains "daily" %}
               Daily Top Music Videos
             {% elsif top_chart_period contains "weekly" %}
@@ -44,7 +44,7 @@
         </div>
 
         <div class="flex flex--col w--[50cqw] portrait:w--full">
-          <div class="label lg:label--large mb--1.5">Trending Music Videos</div>
+          <div class="label lg:label--large mb--1.5 lg:mb--2">Trending Music Videos</div>
           <div class="flex flex--col" data-overflow="true">
             {% for video in trending_chart.videoViews %}
               <div class="item mb--1 lg:mb--2">
@@ -71,7 +71,7 @@
         </div>
       </div>
     {% else %}
-      <div class="label mb--1.5 text--center">
+      <div class="label mb--1.5 lg:mb--2 text--center">
         {% if top_chart_period contains "daily" %}
           Daily Top Music Videos
         {% elsif top_chart_period contains "weekly" %}
