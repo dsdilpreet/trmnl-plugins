@@ -1,10 +1,5 @@
 {% assign chart = videosDaily | default: videosWeekly %}
 {% assign chart_period = chart.chartPeriodType | downcase %}
-<style>
-  .title-lg-only { display: none; }
-  .screen--lg .title-lg-only { display: inline; }
-  .screen--lg .title-base-only { display: none; }
-</style>
 <div class="layout layout--col layout--top">
   {% if chart and chart.videoViews %}
     <div class="label lg:label--large mb--1 lg:mb--1.5">
@@ -26,10 +21,10 @@
               {% endif %}
             </div>
             <div class="content">
-              <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 34 }}</span>
-              <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 42 }}</span>
-              <span class="description description--large title-base-only text--bold">{{ video.artists | default: "Unknown" | truncate: 34 }}</span>
-              <span class="description description--large title-lg-only text--bold">{{ video.artists | default: "Unknown" | truncate: 42 }}</span>
+              <span class="title inline lg:hidden">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
+              <span class="title hidden lg:inline">{{ video.title | default: "Unknown" | truncate: 42 }}</span>
+              <span class="description description--large text--bold inline lg:hidden">{{ video.artists | default: "Unknown" | truncate: 34 }}</span>
+              <span class="description description--large text--bold hidden lg:inline">{{ video.artists | default: "Unknown" | truncate: 42 }}</span>
               <div class="flex gap--small">
                 <span class="label text--bold">{{ video.viewCount | default: "-" }} views</span>
                 <span class="label text--bold">{{ video.percentViewsChange | default: "-" }}</span>

@@ -1,11 +1,6 @@
 {% assign top_chart = videosDaily | default: videosWeekly %}
 {% assign top_chart_period = top_chart.chartPeriodType | downcase %}
 {% assign trending_chart = videosTrending %}
-<style>
-  .title-lg-only { display: none; }
-  .screen--lg .title-lg-only { display: inline; }
-  .screen--lg .title-base-only { display: none; }
-</style>
 <div class="layout layout--col layout--top">
   {% if top_chart and top_chart.videoViews %}
     {% if trending_chart and trending_chart.videoViews %}
@@ -29,10 +24,10 @@
                   {% endif %}
                 </div>
                 <div class="content">
-                  <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
-                  <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
-                  <span class="description description--large title-base-only text--bold">{{ video.artists | default: "Unknown" | truncate: 32 }}</span>
-                  <span class="description description--large title-lg-only text--bold">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
+                  <span class="title inline lg:hidden">{{ video.title | default: "Unknown" | truncate: 20 }}</span>
+                  <span class="title hidden lg:inline">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold inline lg:hidden">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold hidden lg:inline">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
                   <div class="flex gap--small">
                     <span class="label text--bold">{{ video.viewCount | default: "-" }} views</span>
                     <span class="label text--bold">{{ video.percentViewsChange | default: "-" }}</span>
@@ -54,10 +49,10 @@
                   {% endif %}
                 </div>
                 <div class="content">
-                  <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
-                  <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
-                  <span class="description description--large title-base-only text--bold">{{ video.artists | default: "Unknown" | truncate: 32 }}</span>
-                  <span class="description description--large title-lg-only text--bold">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
+                  <span class="title inline lg:hidden">{{ video.title | default: "Unknown" | truncate: 20 }}</span>
+                  <span class="title hidden lg:inline">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold inline lg:hidden">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold hidden lg:inline">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
                   <div class="flex gap--small">
                     <span class="label text--bold">Released {% if video.releaseDate and video.releaseDate != "-" %}{{ video.releaseDate | date: "%b %-d, %Y" }}{% else %}-{% endif %}</span>
                     {% if video.percentViewsChange and video.percentViewsChange != "-" %}
@@ -90,10 +85,10 @@
                 {% endif %}
               </div>
               <div class="content">
-                <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 28 }}</span>
-                <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 34 }}</span>
-                <span class="description description--large title-base-only text--bold">{{ video.artists | default: "Unknown" | truncate: 36 }}</span>
-                <span class="description description--large title-lg-only text--bold">{{ video.artists | default: "Unknown" | truncate: 42 }}</span>
+                <span class="title inline lg:hidden">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
+                <span class="title hidden lg:inline">{{ video.title | default: "Unknown" | truncate: 34 }}</span>
+                <span class="description description--large text--bold inline lg:hidden">{{ video.artists | default: "Unknown" | truncate: 34 }}</span>
+                <span class="description description--large text--bold hidden lg:inline">{{ video.artists | default: "Unknown" | truncate: 42 }}</span>
                 <div class="flex gap--small">
                   <span class="label text--bold">{{ video.viewCount | default: "-" }} views</span>
                   <span class="label text--bold">{{ video.percentViewsChange | default: "-" }}</span>
