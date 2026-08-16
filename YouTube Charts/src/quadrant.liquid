@@ -7,7 +7,7 @@
 </style>
 <div class="layout layout--col layout--top">
   {% if chart and chart.videoViews %}
-    <div class="label lg:label--large" style="margin-bottom: 6px;">
+    <div class="label lg:label--large mb--1.5">
       {% if chart_period contains "daily" %}
         Daily Top Music Videos
       {% elsif chart_period contains "weekly" %}
@@ -19,19 +19,19 @@
     <div class="flex flex--col" data-overflow="true">
       {% for video in chart.videoViews %}
           <div class="item mb--1 lg:mb--2">
-            <div class="icon" style="width: 96px; min-width: 96px; align-self: stretch;">
+            <div class="icon w--24 w--min-24 stretch-y">
             {% if video.thumbnailUrl %}
-              <img class="image image--cover image-dither" style="width: 100%; height: 100%;" src="{{ video.thumbnailUrl }}">
+              <img class="image image--cover image-dither w--full h--full" src="{{ video.thumbnailUrl }}">
             {% endif %}
           </div>
           <div class="content">
             <span class="title title-base-only">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
             <span class="title title-lg-only">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
-            <span class="description description--large title-base-only" style="font-weight: 600;">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
-            <span class="description description--large title-lg-only" style="font-weight: 600;">{{ video.artists | default: "Unknown" | truncate: 36 }}</span>
+            <span class="description description--large title-base-only text--bold">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
+            <span class="description description--large title-lg-only text--bold">{{ video.artists | default: "Unknown" | truncate: 36 }}</span>
             <div class="flex gap--small">
-              <span class="label" style="font-weight: 600;">{{ video.viewCount | default: "-" }} views</span>
-              <span class="label" style="font-weight: 600;">{{ video.percentViewsChange | default: "-" }}</span>
+              <span class="label text--bold">{{ video.viewCount | default: "-" }} views</span>
+              <span class="label text--bold">{{ video.percentViewsChange | default: "-" }}</span>
             </div>
           </div>
         </div>
