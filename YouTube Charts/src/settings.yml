@@ -35,7 +35,7 @@ custom_fields:
   name: Youtube Charts
   category: entertainment,analytics
   field_type: author_bio
-  description: Displays top and trending music from YouTube from across the world.
+  description: Displays top and trending music from YouTube from across the world. Choose your country or see global charts.
   github_url: https://github.com/dsdilpreet/trmnl-plugins
 - keyname: country
   name: Country
@@ -113,5 +113,5 @@ custom_fields:
   - Vietnam
   - Zimbabwe
 name: YouTube Charts
-description: Music charts from across the world.
+description: Music charts from across the world
 refresh_interval: 15
