@@ -1,0 +1,114 @@
+{% assign top_chart = videosDaily | default: videosWeekly %}
+{% assign top_chart_period = top_chart.chartPeriodType | downcase %}
+{% assign trending_chart = videosTrending %}
+<div class="layout layout--col layout--top">
+  {% if top_chart and top_chart.videoViews %}
+    {% if trending_chart and trending_chart.videoViews %}
+      <div class="flex flex--row portrait:flex--col lg:portrait:flex--row gap--2.5 w--full">
+        <div class="flex flex--col w--[50cqw] portrait:w--full lg:portrait:w--[50cqw] h--full">
+          <div class="label lg:label--large mb--1.5 lg:mb--2">
+            {% if top_chart_period contains "daily" %}
+              Daily Top Music Videos
+            {% elsif top_chart_period contains "weekly" %}
+              Weekly Top Music Videos
+            {% else %}
+              Top Music Videos
+            {% endif %}
+          </div>
+          <div class="flex flex--col" data-overflow="true">
+            {% for video in top_chart.videoViews %}
+              <div class="item mb--1 lg:mb--2">
+                <div class="icon w--24 w--min-24 stretch-y">
+                  {% if video.thumbnailUrl %}
+                    <img class="image image--cover image-dither w--full h--full" src="{{ video.thumbnailUrl }}">
+                  {% endif %}
+                </div>
+                <div class="content">
+                  <span class="title inline lg:hidden">{{ video.title | default: "Unknown" | truncate: 20 }}</span>
+                  <span class="title hidden lg:inline">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold inline lg:hidden">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold hidden lg:inline">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
+                  <div class="flex gap--small">
+                    <span class="label text--bold">{{ video.viewCount | default: "-" }} views</span>
+                    <span class="label text--bold">{{ video.percentViewsChange | default: "-" }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="flex flex--col w--[50cqw] portrait:w--full lg:portrait:w--[50cqw]">
+          <div class="label lg:label--large mb--1.5 lg:mb--2">Trending Music Videos</div>
+          <div class="flex flex--col" data-overflow="true">
+            {% for video in trending_chart.videoViews %}
+              <div class="item mb--1 lg:mb--2">
+                <div class="icon w--24 w--min-24 stretch-y">
+                  {% if video.thumbnailUrl %}
+                    <img class="image image--cover image-dither w--full h--full" src="{{ video.thumbnailUrl }}">
+                  {% endif %}
+                </div>
+                <div class="content">
+                  <span class="title inline lg:hidden">{{ video.title | default: "Unknown" | truncate: 20 }}</span>
+                  <span class="title hidden lg:inline">{{ video.title | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold inline lg:hidden">{{ video.artists | default: "Unknown" | truncate: 30 }}</span>
+                  <span class="description description--large text--bold hidden lg:inline">{{ video.artists | default: "Unknown" | truncate: 38 }}</span>
+                  <div class="flex gap--small">
+                    <span class="label text--bold">Released {% if video.releaseDate and video.releaseDate != "-" %}{{ video.releaseDate | date: "%b %-d, %Y" }}{% else %}-{% endif %}</span>
+                    {% if video.percentViewsChange and video.percentViewsChange != "-" %}
+                      <span class="label text--bold">{{ video.percentViewsChange }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="label mb--1.5 lg:mb--2 text--center">
+        {% if top_chart_period contains "daily" %}
+          Daily Top Music Videos
+        {% elsif top_chart_period contains "weekly" %}
+          Weekly Top Music Videos
+        {% else %}
+          Top Music Videos
+        {% endif %}
+      </div>
+      <div class="columns gap--2.5" data-overflow-max-cols="2" data-overflow-max-cols-portrait="1">
+        <div class="column">
+          {% for video in top_chart.videoViews %}
+            <div class="item mb--1 lg:mb--2">
+              <div class="icon w--24 w--min-24 stretch-y">
+                {% if video.thumbnailUrl %}
+                  <img class="image image--cover image-dither w--full h--full" src="{{ video.thumbnailUrl }}">
+                {% endif %}
+              </div>
+              <div class="content">
+                <span class="title inline lg:hidden">{{ video.title | default: "Unknown" | truncate: 24 }}</span>
+                <span class="title hidden lg:inline">{{ video.title | default: "Unknown" | truncate: 34 }}</span>
+                <span class="description description--large text--bold inline lg:hidden">{{ video.artists | default: "Unknown" | truncate: 34 }}</span>
+                <span class="description description--large text--bold hidden lg:inline">{{ video.artists | default: "Unknown" | truncate: 42 }}</span>
+                <div class="flex gap--small">
+                  <span class="label text--bold">{{ video.viewCount | default: "-" }} views</span>
+                  <span class="label text--bold">{{ video.percentViewsChange | default: "-" }}</span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="layout layout--col layout--center">
+      <span class="value value--small">No top video chart data available.</span>
+      <span class="label">Try another country in plugin settings.</span>
+    </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img class="image image--adaptive image-dither" src="https://www.youtube.com/s/desktop/0084d708/img/favicon_144x144.png">
+  <span class="title">{{ country.name | default: "Global" }}</span>
+  <span class="instance">{{ lastUpdatedLocalTime | date: "%b %d, %I:%M %p" }}</span>
+</div>
