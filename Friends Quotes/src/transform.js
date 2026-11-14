@@ -1122,12 +1122,19 @@ const QUOTES = [
 ];
 
 function run(input) {
+  const rawCharacter = input?.trmnl?.plugin_settings?.custom_fields_values?.character;
+  const requestedCharacter = typeof rawCharacter === "string" ? rawCharacter.trim().toLowerCase() : "all";
+  const character = ["chandler", "joey", "monica", "phoebe", "rachel", "ross"].includes(requestedCharacter)
+    ? requestedCharacter : "all";
+  const matchingQuotes = QUOTES.filter((quote) => character === "all" || quote.character.split(" ")[0].toLowerCase() === character);
+  const eligibleQuotes = matchingQuotes.length ? matchingQuotes : QUOTES;
   const previousId = input?.trmnl?.state?.last_quote_id;
-  const candidates = QUOTES.filter((quote) => quote.id !== previousId);
+  const alternatives = eligibleQuotes.filter((quote) => quote.id !== previousId);
+  const candidates = alternatives.length ? alternatives : eligibleQuotes;
   const quote = candidates[Math.floor(Math.random() * candidates.length)];
   return {
     quote,
-    quote_count: QUOTES.length,
+    quote_count: eligibleQuotes.length,
     trmnl_state: { last_quote_id: quote.id },
   };
 }

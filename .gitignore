@@ -1,5 +1,9 @@
 .DS_Store
 bin
+!/Friends Quotes/bin/
+/Friends Quotes/bin/*
+!/Friends Quotes/bin/build-quotes.mjs
+!/Friends Quotes/bin/preview.rb
 trmnl.env
 __pycache__
 _build/

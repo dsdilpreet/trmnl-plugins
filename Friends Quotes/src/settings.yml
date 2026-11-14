@@ -2,7 +2,7 @@
 strategy: static
 no_screen_padding: 'no'
 dark_mode: 'no'
-static_data: '{}'
+static_data: "{}"
 polling_verb: get
 framework_version: 3.4.6
 serverless_language: node
@@ -13,6 +13,29 @@ polling_body: ''
 id: 540716
 oauth_enabled: 'false'
 oauth_pkce_enabled: 'no'
+custom_fields:
+- keyname: friends_quotes
+  name: About This Plugin
+  category: entertainment,humor
+  field_type: author_bio
+  description: Displays random short quotes from Friends in all four layouts. Choose all characters or a favorite from the main cast. Quote data is bundled with the plugin, so no external service or API key is required. Some lines may depend on context from the show.
+  github_url: https://github.com/dsdilpreet/trmnl-plugins
+- keyname: character
+  name: Character
+  field_type: select
+  description: Choose whose quotes to display.
+  help_text: All characters includes guest characters. A new quote is selected when the plugin refreshes, not necessarily on every device wake.
+  default: all
+  optional: true
+  indexable: true
+  options:
+  - All characters: all
+  - Chandler Bing: chandler
+  - Joey Tribbiani: joey
+  - Monica Geller: monica
+  - Phoebe Buffay: phoebe
+  - Rachel Green: rachel
+  - Ross Geller: ross
 name: Friends Quotes
-description: A complete Friends quote on every refresh, bundled for serverless rendering.
+description: Random quotes from Friends
 refresh_interval: 60
