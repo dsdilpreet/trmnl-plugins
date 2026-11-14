@@ -1,0 +1,18 @@
+---
+strategy: static
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: '{}'
+polling_verb: get
+framework_version: 3.4.6
+serverless_language: node
+refresh_interval_floor: ''
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 540716
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
+name: Friends Quotes
+description: A complete Friends quote on every refresh, bundled for serverless rendering.
+refresh_interval: 60

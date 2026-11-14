@@ -3,6 +3,9 @@ Plugins for [TRMNL](https://trmnl.com) E-INK Display.
 
 ## Plugins
 Each directory contains a plugin.
+
+### Friends Quotes
+Displays a complete short quote using bundled TRMNL Serverless data, with responsive full, half-horizontal, half-vertical, and quadrant layouts. See [setup and preview instructions](Friends%20Quotes/README.md).
  
 ### Google Health (Fitbit)
 Displays your daily activity and recovery metrics from Google Health.

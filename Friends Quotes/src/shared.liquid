@@ -1,0 +1,18 @@
+{% template friends_quote %}
+  {% if quote.text != blank %}
+    <div class="richtext richtext--center w--full">
+      <div class="content content--center text--center {{ typography }}" data-content-limiter="true" data-pixel-perfect="true"><p>&ldquo;{{ quote.text | escape }}&rdquo;</p></div>
+    </div>
+    <span class="label lg:label--large text--center" data-clamp="2">{{ quote.character | escape }}</span>
+  {% else %}
+    <span class="title title--small text--center">No quote available</span>
+    <span class="description text--center" data-clamp="2">Waiting for the next refresh.</span>
+  {% endif %}
+{% endtemplate %}
+
+{% template friends_title_bar %}
+  <div class="title_bar">
+    <img class="image image--adaptive" src="https://trmnl.com/images/plugins/trmnl--render.svg" alt="">
+    <span class="title" data-clamp="1">{{ name | default: "Friends Quotes" | escape }}</span>
+  </div>
+{% endtemplate %}

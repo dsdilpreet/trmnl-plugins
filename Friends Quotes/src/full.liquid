@@ -1,0 +1,10 @@
+<div class="layout layout--col layout--center gap--large lg:gap--xlarge">
+  <span class="title title--large lg:title--xxlarge">F &middot; R &middot; I &middot; E &middot; N &middot; D &middot; S</span>
+  {% if quote.text.size > 80 %}
+    {% assign typography = "content--xlarge lg:content--xxxlarge" %}
+  {% else %}
+    {% assign typography = "content--xxxlarge" %}
+  {% endif %}
+  {% render "friends_quote", quote: quote, typography: typography %}
+</div>
+{% render "friends_title_bar", name: trmnl.plugin_settings.instance_name %}

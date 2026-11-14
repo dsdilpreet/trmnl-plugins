@@ -2,3 +2,5 @@
 bin
 trmnl.env
 __pycache__
+_build/
+.trmnlp/
