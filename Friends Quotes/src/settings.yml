@@ -18,7 +18,7 @@ custom_fields:
   name: About This Plugin
   category: entertainment,humor
   field_type: author_bio
-  description: Displays random quotes from your favorite characters. Pick a member of the main cast or enjoy a mix of familiar faces and guest stars.
+  description: From Joey's "How you doin'?" to Ross's "Pivot! Pivot! Pivot!" and more, enjoy random quotes from the main cast and guest stars.
   github_url: https://github.com/dsdilpreet/trmnl-plugins
 - keyname: character
   name: Character
@@ -37,5 +37,5 @@ custom_fields:
   - Rachel Green: rachel
   - Ross Geller: ross
 name: Friends Quotes
-description: Random quotes from Friends
+description: Quotes from the TV show Friends
 refresh_interval: 60
