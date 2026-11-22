@@ -14,9 +14,12 @@ Category changes can take about two hours to appear in TRMNL search results.
 
 Serverless reads `trmnl.plugin_settings.custom_fields_values.character` and
 selects from that character's eligible entries. Missing or invalid selections
-fall back to All. `quote_count` reports the selected pool size. Saved State avoids
-the previous quote whenever the pool has another entry; a single-entry pool must
-repeat. No API credentials or external data-source fields are needed.
+fall back to All. If the previous quote's popularity was below 5, the next quote
+is selected from entries above 5 in the selected character pool when available.
+Otherwise, selection falls back to the full character pool. `quote_count` reports
+the selected character pool size. Saved State avoids the previous quote whenever
+the pool has another entry; a single-entry pool must repeat. No API credentials
+or external data-source fields are needed.
 
 ## Data and Serverless
 
@@ -28,13 +31,16 @@ so no external JSON host, API key, or network request is needed for quote data.
 The build keeps complete single-speaker entries of at most 160 characters,
 removes the repeated-line annotation, separates attribution, and deduplicates
 matching quotes. It does not shorten dialogue or extract lines from longer scenes.
-The original collection remains unchanged. Popularity is not used as a weight.
-These are intact entries, not a curated list of standalone jokes; some need context.
+The original collection remains unchanged. Popularity is retained on each bundled
+quote and used only for the conditional threshold selection, not as a random weight.
+The builder embeds the selection function and threshold into `src/transform.js`,
+which makes the selection decision at runtime. These are intact entries, not a
+curated list of standalone jokes; some need context.
 
 The Static strategy has an empty data payload; TRMNL supplies globals, form values,
 and Saved State to the Node serverless `run(input)`.
-The function returns `quote` (`id`, `character`, `text`), `quote_count`, and
-`trmnl_state.last_quote_id`. Saved State prevents an immediate repeat. New
+The function returns `quote` (`id`, `character`, `text`, `popularity`),
+`quote_count`, and `trmnl_state.last_quote_id`. Saved State prevents an immediate repeat. New
 installs or cleared state start fresh; ordinary device wakes may reuse a cached
 screen and do not necessarily execute serverless again.
 
